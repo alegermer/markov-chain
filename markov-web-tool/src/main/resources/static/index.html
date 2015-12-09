@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markov Chain Web Tool</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<script src="js/angular.min.js"></script>
+<script src="js/app.js"></script>
+</head>
+<body>
+	<div ng-app="markovTool" class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p>
+				<h2>Markov Chain Text Transform</h2>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3" ng-controller="MarkovToolCtrl">
+				<form>
+					<div class="form-group">
+						<label for="prefixLen">Prefix Length</label> <input id="prefixLen"
+							type="number" ng-model="prefixLen" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="maxTokens">Generation Token Limit</label> <input
+							id="maxTokens" type="number" ng-model="maxTokens"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="tokenStrategy">Token Strategy</label> <select
+							id="tokenStrategy" ng-model="tokenStrategy" class="form-control"
+							ng-options="idx*1 as val for (idx,val) in tokenStrategies">
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="sourceFile">Source Text File</label> <input
+							id="sourceFile" type="file"
+							file-model="sourceFile">
+					</div>
+					<div class="form-group">
+						<button ng-click="uploadFile()" class="btn btn-info form-control">Transform</button>
+					</div>
+					<div class="form-group bg-danger text-center" style="padding:5px;" ng-show="errMsg">
+							<p>
+							<strong>{{errMsg}}</strong>
+							</p>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-9">
+				<textarea class="form-control" ng-model="result.content" rows="20"></textarea>
+			</div>
+		</div>
+		<div class="row"></div>
+		<p />
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<p>
+				<h4>{{(result.states?"Representation of the used FSM states":"")}}</h4>
+				</p>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<table class="table table-striped" ng-show="result.states">
+				<tr>
+					<th>#</th>
+					<th>Prefix</th>
+					<th>Suffixes</th>
+				</tr>
+				<tr ng-repeat="state in result.states">
+					<td>{{$index}}</td>
+					<td>{{ state.prefix }}</td>
+					<td>
+						<table>
+							<tr ng-repeat="suffix in state.suffixes">
+								<td><small>{{state.suffixesWeights[$index]}}x</small> "{{(suffix==null?"null":suffix)}}"</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
