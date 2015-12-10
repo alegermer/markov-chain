@@ -27,7 +27,7 @@ app.service('MarkovChainService', [ '$http', '$rootScope', function($http, $root
 			fd.append('maxTokens', maxTokens);
 		}
 		fd.append('tokenStrategy', tokenStrategy)
-		$http.post("/upload", fd, {
+		$http.post("/transform", fd, {
 			transformRequest : angular.identity,
 			headers : {
 				'Content-Type' : undefined

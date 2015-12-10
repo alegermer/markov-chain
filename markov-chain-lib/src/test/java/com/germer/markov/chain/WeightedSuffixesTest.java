@@ -48,7 +48,7 @@ public class WeightedSuffixesTest {
 		ws.add("beta");
 		ws.add("alpha");
 
-		assertEquals(10, ws.totalWeight);
+		assertEquals(10, ws.getTotalWeight());
 		assertEquals("alpha", ws.getRandom());
 		assertEquals("alpha", ws.getRandom());
 		assertEquals("beta", ws.getRandom());
